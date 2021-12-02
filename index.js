@@ -1,5 +1,5 @@
 const loadBooks = (filter) => {
-  fetch("https://striveschool-api.herokuapp.com/books")
+  return fetch("https://striveschool-api.herokuapp.com/books")
     .then((response) => response.json())
     .then((books) => {
       displayBooks(books, filter)
@@ -17,15 +17,17 @@ const displayBooks = (books, filter) => {
     .filter((book) => book.title.toLowerCase().includes(filter.toLowerCase()))
     .forEach((book) => {
       let cardNode = document.createElement("div")
-      cardNode.classList.add("col-3")
-      cardNode.innerHTML = `<div class="card">
-  <img src="${book.img}" class="card-img-top" alt="${book.title}">
+      cardNode.classList.add("col-3", "mb-3")
+      cardNode.innerHTML = `<div class="card h-175 mb-3">
+  <img src="${book.img}" class="card-img-top " style=" height:300px; object-fit:cover" alt="${book.title}">
   <div class="card-body">
-    <h5 class="card-title">${book.title}</h5>
+    <h5 class="card-title text-truncate">${book.title}</h5>
     <p class="card-text">${book.category}</p>
     <p class="card-text">${book.price}</p>
-    <a href="#" onclick="addToCart(this)" return false;" class="btn btn-primary">Add to Cart</a>
-    <a href="#" onclick="skip(this)" class="btn btn-primary">Skip</a>
+    
+    <a href="#" onclick="addToCart(this)" return false;" class="btn btn-primary ">Add to Cart</a>
+    <a href="#" onclick="skip(this)" class="btn btn-warning ">Skip</a>
+   
   </div>
 </div>`
       booksContainer.appendChild(cardNode)
@@ -37,6 +39,10 @@ const addToCart = (target) => {
 
   let cartContainer = document.getElementById("cart-container")
   let bookCardClone = bookCard.cloneNode(true)
+  let imgNode = bookCardClone.querySelector("img")
+  imgNode.style.height = "100px"
+  imgNode.style.width = "object-fit:cover"
+
   let deleteButton = bookCardClone.querySelector("a:first-of-type")
   deleteButton.innerText = "Delete"
 
